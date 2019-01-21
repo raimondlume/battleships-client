@@ -1,6 +1,6 @@
 # battleships-client
 
-> A Vue.js project
+> A Vue.js client for a ASP.NET API for the game battleships. Project is for ICD0008 at TalTech University.
 
 ## Build Setup
 
