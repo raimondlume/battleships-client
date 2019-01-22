@@ -1,9 +1,9 @@
 <template lang="pug">
   .container
     .row
-      .col-md-12.text-center
+      .col-md-12.text-center.mt-5
         img(src="../assets/boat.png").img-fluid
-        h1 Battleships
+        h1.display-1 Battleships
     .row
       .col-md-6.col-xs-12.main-button
         button(type="button", v-on:click="goToNewGame").btn.btn-block.btn-lg.btn-info New Game
@@ -42,4 +42,7 @@
     margin-top: 30px;
   }
 
+  .logo{
+    height: 500px;
+  }
 </style>
