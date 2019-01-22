@@ -1,7 +1,8 @@
 # battleships-client
 
-A Vue.js client for a ASP.NET API for the game battleships. Project is for ICD0008 at TalTech University.
-Needs the companion API to run at localhost:5000
+A Vue.js client for a ASP.NET API for a classic game of battleships. Project is for subject ICD0008 at TalTech University.
+
+Needs the companion API to run at `localhost:5000`
 
 ## Build Setup
 
