@@ -2,24 +2,50 @@
   table.table.table-bordered.table-hover.h-100
     tbody
       tr(v-for="y in gameBoard.Height")
-        template(v-for="x in gameBoard.Length")
-          td(v-if="gameBoard.BoardSquareArray[x][y].HasShip === false || opponentView === true" v-on:click="test(x, gameBoard.Height - (y - 1))").table-primary
-          td(v-if="gameBoard.BoardSquareArray[x][y].HasShip === true && opponentView === false").table-dark
-            <!--button.btn.btn-info(v-if="gameBoard.BoardSquareArray[x][y].HasShip === false")-->
-            <!--button.btn.btn-danger(v-if="gameBoard.BoardSquareArray[x][y].HasShip === true")-->
+        td(v-for="x in gameBoard.Length" v-bind:class="getCellColor(x, y)" v-on:click="shoot(x, y)")
 </template>
 
 <script>
   export default {
     name: "GameBoard",
     props: {
-      data: {},
+      data: {
+      },
       gameBoard: Object,
-      opponentView: Boolean
+      opponentView: Boolean,
+      disableHits: Boolean,
+      boardOwner: Number
     },
     methods: {
+      getCellColor: function (x, y) {
+        let cell = this.gameBoard.BoardSquareArray[x][y]
+        if (this.opponentView) {
+          if (cell.HasShip) return cell.IsHit ? 'bg-danger' : 'table-primary'
+          else return cell.IsHit ? 'table-warning' : 'table-primary'
+        } else {
+          if (cell.HasShip) return cell.IsHit ? 'bg-danger' : 'table-dark'
+          else return cell.IsHit ? 'table-warning' : 'table-primary'
+        }
+      },
       test: function (x, y) {
-        console.log(`Clicked cell ${x} ${y}`)
+        if (this.disableHits) return
+        this.gameBoard.BoardSquareArray[x][y].IsHit = true
+      },
+      shoot: function (x, y) {
+        let cell = this.gameBoard.BoardSquareArray[x][y]
+        if (this.disableHits || cell.IsHit) return
+
+        let self = this
+        this.$http.post(this.$config.API_BASE + 'shoot', {
+          GameId: this.$parent.GameId,
+          BoardNumber: this.boardOwner,
+          ShootX: x,
+          ShootY: y
+        }).then(res => {
+          const wasHit = res.data
+          console.log(wasHit)
+          self.$parent.updatePage()
+        })
       }
     }
   }
